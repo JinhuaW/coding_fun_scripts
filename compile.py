@@ -27,7 +27,16 @@ def check_result(target, id):
 	input = open(build_repo + "/results/" + id + "/input.txt")
 	output = open(build_repo + "/results/" + id + "/output.txt")
 	while True:
+		try:
 		r,w = popen2.popen2(build_repo + "/" + target)
+		except Exception, e:
+			print "Your program failed:\n  %s" % e.message
+			r.close()
+			w.close()
+			input.close()
+			output.close()
+			return False
+			
 		data = input.readline()
 		if not data:
 			r.close()
